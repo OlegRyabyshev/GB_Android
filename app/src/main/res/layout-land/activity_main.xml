@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="10dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/topText"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:fontFamily="sans-serif-thin"
-        android:gravity="right|top"
-        android:textColor="@color/color_black"
-        android:textIsSelectable="true"
-        android:freezesText="true"
-        android:textSize="@dimen/top_view_size_vertical"
-        tools:ignore="RtlHardcoded" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingEnd="20dp">
 
-    <TextView
-        android:id="@+id/bottomText"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:freezesText="true"
-        android:fontFamily="sans-serif-thin"
-        android:gravity="right|top"
-        android:text="@string/starting_input"
-        android:textColor="#000000"
-        android:textIsSelectable="true"
-        android:textSize="@dimen/bottom_view_size_vertical"
-        tools:ignore="RtlHardcoded" />
+        <TextView
+            android:id="@+id/topText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="right|top"
+            android:textColor="@color/color_black"
+            android:textIsSelectable="true"
+            android:freezesText="true"
+            android:textSize="@dimen/top_view_size_horizontal"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/bottomText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:freezesText="true"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="right|top"
+            android:text="@string/starting_input"
+            android:textColor="#000000"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/bottom_view_size_horizontal"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.6"
         android:gravity="bottom|center_horizontal">
 
