@@ -1,7 +1,6 @@
 package xyz.fcr.gb_android;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,28 +22,28 @@ public class MainActivity extends AppCompatActivity {
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
 
-        mButtonAC = findViewById(R.id.buttonAC);
-        mButtonDel = findViewById(R.id.buttonDel);
-        mButtonPercent = findViewById(R.id.buttonPercent);
-        mButtonEquals = findViewById(R.id.buttonEquals);
-        mButtonDot = findViewById(R.id.buttonDot);
+        final Button mButtonAC = findViewById(R.id.buttonAC);
+        final Button mButtonDel = findViewById(R.id.buttonDel);
+        final Button mButtonPercent = findViewById(R.id.buttonPercent);
+        final Button mButtonEquals = findViewById(R.id.buttonEquals);
+        final Button mButtonDot = findViewById(R.id.buttonDot);
 
-        mButtonPlus = findViewById(R.id.buttonPlus);
-        mButtonMinus = findViewById(R.id.buttonMinus);
-        mButtonMultiply = findViewById(R.id.buttonMultiply);
-        mButtonDivide = findViewById(R.id.buttonDivide);
+        final Button mButtonPlus = findViewById(R.id.buttonPlus);
+        final Button mButtonMinus = findViewById(R.id.buttonMinus);
+        final Button mButtonMultiply = findViewById(R.id.buttonMultiply);
+        final Button mButtonDivide = findViewById(R.id.buttonDivide);
 
-        mButton000 = findViewById(R.id.button000);
-        mButton0 = findViewById(R.id.button0);
-        mButton1 = findViewById(R.id.button1);
-        mButton2 = findViewById(R.id.button2);
-        mButton3 = findViewById(R.id.button3);
-        mButton4 = findViewById(R.id.button4);
-        mButton5 = findViewById(R.id.button5);
-        mButton6 = findViewById(R.id.button6);
-        mButton7 = findViewById(R.id.button7);
-        mButton8 = findViewById(R.id.button8);
-        mButton9 = findViewById(R.id.button9);
+        final Button mButton000 = findViewById(R.id.button000);
+        final Button mButton0 = findViewById(R.id.button0);
+        final Button mButton1 = findViewById(R.id.button1);
+        final Button mButton2 = findViewById(R.id.button2);
+        final Button mButton3 = findViewById(R.id.button3);
+        final Button mButton4 = findViewById(R.id.button4);
+        final Button mButton5 = findViewById(R.id.button5);
+        final Button mButton6 = findViewById(R.id.button6);
+        final Button mButton7 = findViewById(R.id.button7);
+        final Button mButton8 = findViewById(R.id.button8);
+        final Button mButton9 = findViewById(R.id.button9);
 
 
         mButtonAC.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +232,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static String tryToRoundDouble(double oldNumber){
+        String number = String.valueOf(oldNumber);
+
+        if (number.endsWith(".0")){
+            DecimalFormat newNumber = new DecimalFormat("0.#");
+            return newNumber.format(oldNumber);
+        }
+
+        return String.valueOf(oldNumber);
+    }
+
     @SuppressLint("SetTextI18n")
     public void performResult() {
         String rawInput = mTopText.getText().toString() + mBottomText.getText().toString();
@@ -241,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
         if (rawInput.endsWith("%") && mTopText.getText().toString().isEmpty()) {
             String input = rawInput.substring(0, rawInput.length() - 1);
             double result = Double.parseDouble(input) / 100;
-            setView(mBottomText, result);
+            setView(mBottomText, tryToRoundDouble(result));
         }
 
         //При операциях на проценте (Например 100+100% = 200)
