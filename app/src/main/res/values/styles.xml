@@ -1,7 +1,6 @@
 <resources>
-    <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_blue</item>
         <item name="colorPrimaryDark">@color/color_blue</item>
         <item name="colorAccent">@color/color_blue</item>
@@ -36,19 +35,4 @@
         <item name="android:textColor">@color/color_blue</item>
         <item name="android:textIsSelectable">true</item>
     </style>
-
-    android:id="@+id/topText"
-    android:layout_height="0dp"
-    android:layout_width="match_parent"
-    android:layout_weight="0.15"
-    android:textSize="@dimen/top_view_size_horizontal"
-    tools:ignore="RtlHardcoded"
-
-    android:fontFamily="sans-serif-thin"
-    android:freezesText="true"
-    android:gravity="right|top"
-    android:padding="@dimen/defaultPadding"
-    android:textColor="@color/color_blue"
-    android:textIsSelectable="true"
-
 </resources>
