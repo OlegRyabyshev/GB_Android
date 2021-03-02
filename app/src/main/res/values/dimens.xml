@@ -3,8 +3,9 @@
     <dimen name="top_view_size_vertical">40sp</dimen>
     <dimen name="bottom_view_size_vertical">65sp</dimen>
 
-    <dimen name="top_view_size_horizontal">50sp</dimen>
+    <dimen name="top_view_size_horizontal">40sp</dimen>
     <dimen name="bottom_view_size_horizontal">75sp</dimen>
 
     <dimen name="buttonFontSize">24sp</dimen>
+    <dimen name="defaultPadding">10dp</dimen>
 </resources>
