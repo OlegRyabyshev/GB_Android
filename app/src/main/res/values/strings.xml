@@ -1,4 +1,8 @@
 <resources>
+    <string name="action_history">History</string>
+    <string name="action_appearance">Appearance</string>
+    <string name="action_about">About</string>
+
     <string name="app_name">Calculator</string>
     <string name="ac">AC</string>
     <string name="del">DEL</string>
@@ -8,8 +12,9 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="dot">.</string>
+    <string name="plus_minus">+-</string>
     <string name="equals">=</string>
-    <string name="button000">000</string>
+
     <string name="button0">0</string>
     <string name="button1">1</string>
     <string name="button2">2</string>

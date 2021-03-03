@@ -2,8 +2,7 @@ package xyz.fcr.gb_android;
 
 import static xyz.fcr.gb_android.MainActivity.tryToRoundDouble;
 
-public class Calc
-{
+public class Calc {
     public static String calcPlus(final String input, final boolean percentEnabled) {
         final String[] args = input.split("\\+");
         final double num1 = Double.parseDouble(args[0]);
@@ -11,8 +10,7 @@ public class Calc
         double result;
         if (percentEnabled) {
             result = num1 + num2 / 100.0 * num1;
-        }
-        else {
+        } else {
             result = num1 + num2;
         }
         return tryToRoundDouble(result);
@@ -26,8 +24,7 @@ public class Calc
 
         if (percentEnabled) {
             result = num1 - num2 / 100.0 * num1;
-        }
-        else {
+        } else {
             result = num1 - num2;
         }
         return tryToRoundDouble(result);
@@ -40,8 +37,7 @@ public class Calc
         double result;
         if (percentEnabled) {
             result = num1 * (num2 / 100.0) * num1;
-        }
-        else {
+        } else {
             result = num1 * num2;
         }
         return tryToRoundDouble(result);
@@ -54,13 +50,11 @@ public class Calc
         double result;
         try {
             if (percentEnabled) {
-                result = num1 / (num2 / 100.0 * num1);
-            }
-            else {
+                result = num1 / ((num2 / 100.0) * num1);
+            } else {
                 result = num1 / num2;
             }
-        }
-        catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {
             return "Error";
         }
         return tryToRoundDouble(result);

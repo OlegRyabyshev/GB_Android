@@ -3,17 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
 
     <TextView
         android:id="@+id/topText"
@@ -21,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:textSize="@dimen/top_view_size_vertical"
-        tools:ignore="RtlHardcoded" />
+        android:autoSizeTextType="uniform"
+        tools:ignore="RtlHardcoded"
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/bottomText"
@@ -49,22 +41,22 @@
 
             <Button
                 android:id="@+id/buttonAC"
-                style="@style/BlueButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/ac" />
 
             <Button
                 android:id="@+id/buttonDel"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/del" />
 
             <Button
                 android:id="@+id/buttonPercent"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/percent" />
 
             <Button
                 android:id="@+id/buttonDivide"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/divide" />
         </TableRow>
 
@@ -75,22 +67,22 @@
 
             <Button
                 android:id="@+id/button7"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button7" />
 
             <Button
                 android:id="@+id/button8"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button8" />
 
             <Button
                 android:id="@+id/button9"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button9" />
 
             <Button
                 android:id="@+id/buttonMultiply"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/multiply" />
         </TableRow>
 
@@ -101,22 +93,22 @@
 
             <Button
                 android:id="@+id/button4"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button4" />
 
             <Button
                 android:id="@+id/button5"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button5" />
 
             <Button
                 android:id="@+id/button6"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button6" />
 
             <Button
                 android:id="@+id/buttonMinus"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/minus" />
         </TableRow>
 
@@ -127,22 +119,22 @@
 
             <Button
                 android:id="@+id/button1"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button1" />
 
             <Button
                 android:id="@+id/button2"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button2" />
 
             <Button
                 android:id="@+id/button3"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button3" />
 
             <Button
                 android:id="@+id/buttonPlus"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/plus" />
         </TableRow>
 
@@ -152,23 +144,33 @@
             android:layout_weight="1">
 
             <Button
-                android:id="@+id/button000"
-                style="@style/WhiteButtonStyle"
-                android:text="@string/button000" />
+                android:id="@+id/buttonDay"
+                style="@style/ButtonStyle"
+                android:text="D" />
+
+            <Button
+                android:id="@+id/buttonNight"
+                style="@style/ButtonStyle"
+                android:text="N" />
+
+            <Button
+                android:id="@+id/buttonPlusMinus"
+                style="@style/ButtonStyle"
+                android:text="@string/plus_minus" />
 
             <Button
                 android:id="@+id/button0"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/button0" />
 
             <Button
                 android:id="@+id/buttonDot"
-                style="@style/WhiteButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/dot" />
 
             <Button
                 android:id="@+id/buttonEquals"
-                style="@style/BlueButtonStyle"
+                style="@style/ButtonStyle"
                 android:text="@string/equals" />
         </TableRow>
     </TableLayout>
