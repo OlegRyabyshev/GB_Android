@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
     <TextView
@@ -42,7 +43,7 @@
             <Button
                 android:id="@+id/buttonAC"
                 style="@style/ButtonStyle"
-                android:text="@string/ac" />
+                android:text="@string/ac"/>
 
             <Button
                 android:id="@+id/buttonDel"

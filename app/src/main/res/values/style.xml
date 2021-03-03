@@ -1,17 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Navigation bar color. -->
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/black</item>
-        <!--<item name="android:navigationBarColor">@color/color_white</item>-->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,7 +23,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/buttonFontSize</item>
     </style>
@@ -36,9 +33,11 @@
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:freezesText">true</item>
         <item name="android:gravity">right|top</item>
+        <item name="android:background">@color/gray</item>
         <item name="android:padding">@dimen/defaultPadding</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textIsSelectable">true</item>
+        <item name="android:elevation">10dp</item>
     </style>
 
 </resources>

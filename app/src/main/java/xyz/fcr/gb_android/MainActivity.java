@@ -18,6 +18,35 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView mTopText;
+    private TextView mBottomText;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_history) {
+            return true;
+        }
+
+        if (id == R.id.action_theme) {
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
         mButtonPlusMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String input = mTopText.getText().toString();
+                if (textFromBottomView().isEmpty()) return;
+
+                String input = textFromBottomView();
                 if (input.startsWith("-")){
-                    input.substring(1);
+                    mBottomText.setText(input.substring(1));
                 } else if (Character.isDigit(input.charAt(0))) {
                     input = "-" + input;
                     mBottomText.setText(input);
@@ -185,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Цифры
-
         mButton0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -317,6 +347,16 @@ public class MainActivity extends AppCompatActivity {
 
         //В конце вычисления и вывода результата обнуляем верхнюю строку
         setView(mTopText, null);
+    }
+
+
+    //Методы для вытаскивания текстов из вьюшек
+    public String textFromTopView(){
+        return mTopText.getText().toString();
+    }
+
+    public String textFromBottomView(){
+        return mBottomText.getText().toString();
     }
 
     //Методы вывода результата на поле
