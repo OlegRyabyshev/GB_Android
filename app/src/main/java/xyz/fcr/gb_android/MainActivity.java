@@ -1,11 +1,15 @@
 package xyz.fcr.gb_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        final Button mDay = findViewById(R.id.buttonDay);
+        final Button mNight = findViewById(R.id.buttonNight);
+
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
 
@@ -27,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
         final Button mButtonPercent = findViewById(R.id.buttonPercent);
         final Button mButtonEquals = findViewById(R.id.buttonEquals);
         final Button mButtonDot = findViewById(R.id.buttonDot);
+        final Button mButtonPlusMinus = findViewById(R.id.buttonPlusMinus);
 
         final Button mButtonPlus = findViewById(R.id.buttonPlus);
         final Button mButtonMinus = findViewById(R.id.buttonMinus);
         final Button mButtonMultiply = findViewById(R.id.buttonMultiply);
         final Button mButtonDivide = findViewById(R.id.buttonDivide);
 
-        final Button mButton000 = findViewById(R.id.button000);
         final Button mButton0 = findViewById(R.id.button0);
         final Button mButton1 = findViewById(R.id.button1);
         final Button mButton2 = findViewById(R.id.button2);
@@ -45,6 +53,39 @@ public class MainActivity extends AppCompatActivity {
         final Button mButton8 = findViewById(R.id.button8);
         final Button mButton9 = findViewById(R.id.button9);
 
+        mButtonPlusMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String input = mTopText.getText().toString();
+                if (input.startsWith("-")){
+                    input.substring(1);
+                } else if (Character.isDigit(input.charAt(0))) {
+                    input = "-" + input;
+                    mBottomText.setText(input);
+                }
+            }
+        });
+
+        mDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
+
+        mNight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        });
+
+        mNight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        });
 
         mButtonAC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +110,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibe.vibrate(5);
+                if (vibe.hasVibrator()) {
+                    long[] pattern = {50, 500};
+                    vibe.vibrate(pattern, -1);
+                }
 
-                mTopText.setText("");
                 mBottomText.setText("0");
                 return true;
             }
@@ -142,14 +185,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Цифры
-        mButton000.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < 3; i++) {
-                    enterNumber(mButton0.getText().toString());
-                }
-            }
-        });
 
         mButton0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,10 +267,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String tryToRoundDouble(double oldNumber){
+    public static String tryToRoundDouble(double oldNumber) {
         String number = String.valueOf(oldNumber);
 
-        if (number.endsWith(".0")){
+        if (number.endsWith(".0")) {
             DecimalFormat newNumber = new DecimalFormat("0.#");
             return newNumber.format(oldNumber);
         }
