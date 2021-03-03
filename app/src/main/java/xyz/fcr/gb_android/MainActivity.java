@@ -197,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
         mButtonMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                copyToHistory("-");
+                if (textFromBottomView().equals("0")) setView(mBottomText, "-0");
+                else copyToHistory("-");
             }
         });
 
@@ -279,8 +280,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterNumber(String number) {
-        if (!(mBottomText.getText().toString().endsWith(getString(R.string.percent)))) {
-            if (mBottomText.getText().toString().equals("0")) mBottomText.setText(number);
+        if (!(textFromBottomView().endsWith(getString(R.string.percent)))) {
+            if (textFromBottomView().equals("0")) setView(mBottomText, number);
+            else if (textFromBottomView().equals("-0")) setView(mBottomText, "-" + number);
             else mBottomText.append(number);
         }
     }
