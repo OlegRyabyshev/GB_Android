@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_about) {
+            setContentView(R.layout.about);
             return true;
         }
 
