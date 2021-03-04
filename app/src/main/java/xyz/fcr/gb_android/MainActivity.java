@@ -1,14 +1,14 @@
 package xyz.fcr.gb_android;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_theme) {
+            showOptionsDialog();
             return true;
         }
 
@@ -42,19 +43,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
+    private void showOptionsDialog() {
+        final String[] themes = {
+                getResources().getString(R.string.action_theme_light),
+                getResources().getString(R.string.action_theme_dark),
+                getResources().getString(R.string.action_theme_default)
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(getResources().getString(R.string.action_theme));
+
+        builder.setSingleChoiceItems(themes, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                else if (which == 1)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                else
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            }
+        });
+
+        builder.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        final Button mDay = findViewById(R.id.buttonDay);
-        final Button mNight = findViewById(R.id.buttonNight);
 
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
@@ -88,33 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 if (textFromBottomView().isEmpty()) return;
 
                 String input = textFromBottomView();
-                if (input.startsWith("-")){
+                if (input.startsWith("-")) {
                     mBottomText.setText(input.substring(1));
                 } else if (Character.isDigit(input.charAt(0))) {
                     input = "-" + input;
                     mBottomText.setText(input);
                 }
-            }
-        });
-
-        mDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        });
-
-        mNight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
-        });
-
-        mNight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
         });
 
@@ -353,11 +354,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Методы для вытаскивания текстов из вьюшек
-    public String textFromTopView(){
+    public String textFromTopView() {
         return mTopText.getText().toString();
     }
 
-    public String textFromBottomView(){
+    public String textFromBottomView() {
         return mBottomText.getText().toString();
     }
 

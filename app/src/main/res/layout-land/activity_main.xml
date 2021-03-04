@@ -161,16 +161,6 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/buttonDay"
-                    style="@style/ButtonStyle"
-                    android:text="D" />
-
-                <Button
-                    android:id="@+id/buttonNight"
-                    style="@style/ButtonStyle"
-                    android:text="N" />
-
-                <Button
                     android:id="@+id/buttonPlusMinus"
                     style="@style/ButtonStyle"
                     android:text="@string/plus_minus" />
