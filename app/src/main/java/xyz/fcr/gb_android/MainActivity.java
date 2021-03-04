@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 mBottomText.setText("0");
             }
         });
+
 
         mButtonDel.setOnClickListener(new View.OnClickListener() {
             @Override
