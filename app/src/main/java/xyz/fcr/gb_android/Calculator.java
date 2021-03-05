@@ -1,7 +1,5 @@
 package xyz.fcr.gb_android;
 
-import android.annotation.SuppressLint;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
@@ -12,8 +10,8 @@ public class Calculator extends AppCompatActivity {
         //
     }
 
-    public void performEquals(String number1, String number2) {
-        String rawInput = mTopText.getText().toString() + mBottomText.getText().toString();
+    public String performEquals(String number1, String number2) {
+/*        String rawInput = mTopText.getText().toString() + mBottomText.getText().toString();
 
         //При проценте (Например 87% = 0,87)
         if (rawInput.endsWith("%") && mTopText.getText().toString().isEmpty()) {
@@ -49,51 +47,73 @@ public class Calculator extends AppCompatActivity {
         }
 
         //В конце вычисления и вывода результата обнуляем верхнюю строку
-        setView(mTopText, null);
+        setView(mTopText, null);*/
+        return "123";
     }
 
     //Базовые операции + - * /
-    public static String basicOperations(final String input, final boolean percentEnabled) {
-        final String[] args = input.split("\\+");
+/*
+    public String doBasicOperation(String num1, String num2, char sign, boolean percentEnabled) {
+*/
+/*      final String[] args = input.split("\\+");
         final String[] args = input.split("-");
         final String[] args = input.split("\u00d7");
         final String[] args = input.split("/");
 
         final double num1 = Double.parseDouble(args[0]);
-        final double num2 = Double.parseDouble(args[1]);
+        final double num2 = Double.parseDouble(args[1]);*//*
+
+
         double result;
-        //+
+
         if (percentEnabled) {
-            result = num1 + num2 / 100.0 * num1;
+            switch (sign) {
+                case ('+'):
+                    result = num1 + (num2 / 100.0 * num1);
+                    break;
+                case ('-'):
+                    result = num1 - (num2 / 100.0 * num1);
+                    break;
+                case ('*'):
+                    result = num1 * (num2 / 100.0) * num1;
+                    break;
+                case ('/'):
+                    result = num1 / ((num2 / 100.0) * num1);
+                    break;
+            }
         } else {
-            result = num1 + num2;
+            switch (sign) {
+                case ('+'):
+                    result = num1 + num2;
+                    break;
+                case ('-'):
+                    result = num1 - num2;
+                    break;
+                case ('*'):
+                    result = num1 * num2;
+                    break;
+                case ('/'):
+                    result = num1 / num2;
+                    break;
+            }
         }
 
-        //-
-        if (percentEnabled) {
-            result = num1 - num2 / 100.0 * num1;
-        } else {
-            result = num1 - num2;
-        }
-
-        //*
-        if (percentEnabled) {
-            result = num1 * (num2 / 100.0) * num1;
-        } else {
-            result = num1 * num2;
-        }
-
-        // /
-        if (percentEnabled) {
-            result = num1 / ((num2 / 100.0) * num1);
-        } else {
-            result = num1 / num2;
-        }
         return tryToRoundDouble(result);
     }
+*/
 
-    //Rounds a number if it ends with .0 (5.0 -> 5)
-    public static String tryToRoundDouble(double number) {
+    public String switchPlusAndMinus(String number) {
+        if (number.isEmpty()) return "0";
+
+        if (number.startsWith("-")) {
+            return number.substring(1);
+        } else if (Character.isDigit(number.charAt(0))) {
+            return ("-" + number);
+        } else return "Error in switching %";
+    }
+
+    //Rounds a doable if it ends with .0 (5.0 -> 5)
+    public String tryToRoundDouble(double number) {
         String sNumber = String.valueOf(number);
 
         if (sNumber.endsWith(".0")) {

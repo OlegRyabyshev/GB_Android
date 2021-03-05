@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
@@ -17,24 +16,19 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTopText;
     private TextView mBottomText;
-    private Calculator calculator;
+    private Calculator calculator = new Calculator();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_history) {
             return true;
-        }
-
-        if (id == R.id.action_theme) {
+        } else if (id == R.id.action_theme) {
             showOptionsDialog();
             return true;
-        }
-
-        if (id == R.id.action_about) {
-            setContentView(R.layout.about);
+        } else if (id == R.id.action_about) {
+            setContentView(R.layout.activity_about);
             return true;
         }
 
@@ -44,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.layout.About, menu);
+        getMenuInflater().inflate(R.layout.activity_about, menu);
         return true;
     }
 
@@ -58,16 +52,13 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getResources().getString(R.string.action_theme));
 
-        builder.setSingleChoiceItems(themes, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                else if (which == 1)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                else
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            }
+        builder.setSingleChoiceItems(themes, -1, (dialog, which) -> {
+            if (which == 0)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            else if (which == 1)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         });
 
         builder.show();
@@ -104,33 +95,21 @@ public class MainActivity extends AppCompatActivity {
         final Button mButton8 = findViewById(R.id.button8);
         final Button mButton9 = findViewById(R.id.button9);
 
+        //Buttons with functions
+        mButtonAC.setOnClickListener(v -> {
+            setView(mTopText, "");
+            setView(mBottomText, "0");
+        });
 
-        mButtonPlusMinus.setOnClickListener(v -> {
-            if (textFromBottomView().isEmpty()) return;
-
-            String input = textFromBottomView();
-            if (input.startsWith("-")) {
-                mBottomText.setText(input.substring(1));
-            } else if (Character.isDigit(input.charAt(0))) {
-                input = "-" + input;
-                mBottomText.setText(input);
+        mButtonDel.setOnClickListener(v -> {
+            if (textFromBottomView().length() > 1) {
+                String input = textFromBottomView();
+                setView(mBottomText, input.substring(0, input.length() - 1));
+            } else {
+                setView(mBottomText, "0");
             }
         });
 
-        mButtonAC.setOnClickListener(v -> {
-            mTopText.setText("");
-            mBottomText.setText("0");
-        });
-
-
-        mButtonDel.setOnClickListener(v -> {
-            if (mBottomText.getText().length() > 1) {
-                String newText = mBottomText.getText().toString();
-                mBottomText.setText(newText.substring(0, newText.length() - 1));
-            } else mBottomText.setText("0");
-        });
-
-        //Можно и зажимать кнопку DEL вместо AC
         mButtonDel.setOnLongClickListener(v -> {
             Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             if (vibe.hasVibrator()) {
@@ -138,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 vibe.vibrate(pattern, -1);
             }
 
-            mBottomText.setText("0");
+            setView(mBottomText, "0");
             return true;
         });
 
@@ -150,7 +129,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mButtonEquals.setOnClickListener(v -> Calc.performResult());
+        mButtonEquals.setOnClickListener(v -> {
+            calculator.performEquals(textFromTopView(), textFromBottomView());
+        });
 
         mButtonDot.setOnClickListener(v -> {
             int counter = 0;
@@ -165,19 +146,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //Базовые операции
-        mButtonPlus.setOnClickListener(v -> copyToHistory("+"));
-
-        mButtonMinus.setOnClickListener(v -> {
-            if (textFromBottomView().equals("0")) setView(mBottomText, "-0");
-            else copyToHistory("-");
+        mButtonPlusMinus.setOnClickListener(v -> {
+            setView(mBottomText, calculator.switchPlusAndMinus(textFromBottomView()));
         });
 
-        mButtonMultiply.setOnClickListener(v -> copyToHistory("×"));
-        mButtonDivide.setOnClickListener(v -> copyToHistory("/"));
 
-        //Цифры
+        //Buttons with basic operations (+, -, x, /)
+        mButtonPlus.setOnClickListener(v -> {
+            moveToTopView("+");
+        });
+
+        mButtonMinus.setOnClickListener(v -> {
+            if (textFromBottomView().equals("0")) {
+                setView(mBottomText, "-0");
+            } else moveToTopView("-");
+        });
+
+        mButtonMultiply.setOnClickListener(v -> {
+            moveToTopView("×");
+        });
+
+        mButtonDivide.setOnClickListener(v -> {
+            moveToTopView("/");
+        });
+
+        //Buttons with numbers
         mButton0.setOnClickListener(v -> enterNumber(mButton0.getText().toString()));
         mButton1.setOnClickListener(v -> enterNumber(mButton1.getText().toString()));
         mButton2.setOnClickListener(v -> enterNumber(mButton2.getText().toString()));
@@ -198,20 +191,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void copyToHistory(String operationSign) {
-        String history = mBottomText.getText().toString();
+    public void moveToTopView(String operationSign) {
+        String history = textFromBottomView();
 
-        if (!(history.endsWith("%"))) {
-            if (mTopText.getText().toString().isEmpty()) {
-                history += operationSign;
-                setView(mTopText, history);
-                setView(mBottomText, "0");
-            }
+        if (!(history.endsWith("%")) && textFromTopView().isEmpty()) {
+            history += operationSign;
+            setView(mTopText, history);
+            setView(mBottomText, "0");
         }
     }
 
-
-    //Методы для вытаскивания текстов из вьюшек
+    //Extract text from views
     public String textFromTopView() {
         return mTopText.getText().toString();
     }
@@ -220,10 +210,9 @@ public class MainActivity extends AppCompatActivity {
         return mBottomText.getText().toString();
     }
 
-    //Методы вывода результата на поле
+    //Setter for view
     public static void setView(TextView view, String input) {
         view.setText(input);
     }
-
 }
 
