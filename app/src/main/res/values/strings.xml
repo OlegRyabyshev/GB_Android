@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Calculator</string>
 
-    <string name="action_history">History</string>
-
     <string name="action_theme">Choose theme</string>
     <string name="action_theme_light">Light</string>
     <string name="action_theme_dark">Dark</string>
@@ -14,6 +12,7 @@
     <string name="about_text_telegram" translatable="false">telegram - @OlegRyabyshev</string>
     <string name="about_text_email" translatable="false">email - oryabyshev@gmail.com</string>
     <string name="about_text_version" translatable="false">Ver. 1.0</string>
+    <string name="return_button">Return</string>
 
     <string name="ac" translatable="false">AC</string>
     <string name="del" translatable="false">DEL</string>

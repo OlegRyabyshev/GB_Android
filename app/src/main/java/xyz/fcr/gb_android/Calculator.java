@@ -1,70 +1,48 @@
 package xyz.fcr.gb_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.util.Log;
 import java.text.DecimalFormat;
 
-public class Calculator extends AppCompatActivity {
-
-    public void performEquals(String number1) {
-        //
-    }
+public class Calculator {
 
     public String performEquals(String number1, String number2) {
-/*        String rawInput = mTopText.getText().toString() + mBottomText.getText().toString();
 
-        //При проценте (Например 87% = 0,87)
-        if (rawInput.endsWith("%") && mTopText.getText().toString().isEmpty()) {
-            String input = rawInput.substring(0, rawInput.length() - 1);
+        //Getting 1% from a number (99% = 0.99)
+        if (number1.isEmpty() && number2.endsWith("%")) {
+            String input = number2.substring(0, number2.length() - 1);
             double result = Double.parseDouble(input) / 100;
-            setView(mBottomText, tryToRoundDouble(result));
+            return tryToRoundDouble(result);
         }
 
-        //При операциях на проценте (Например 100+100% = 200)
-        else if (rawInput.endsWith(getString(R.string.percent))) {
-            String input = rawInput.substring(0, rawInput.length() - 1);
+        //Operations with percent (Например 100+100% = 200)
+        else if (number2.endsWith("%")) {
+            char sign = number1.charAt(number1.length() - 1);
+            String input1 = number1.substring(0, number1.length() - 1);
+            String input2 = number2.substring(0, number2.length() - 1);
 
-            if (input.contains(getString(R.string.plus)))
-                setView(mBottomText, Calc.calcPlus(input, true));
-            else if (input.contains(getString(R.string.minus)))
-                setView(mBottomText, Calc.calcMinus(input, true));
-            else if (input.contains(getString(R.string.multiply)))
-                setView(mBottomText, Calc.calcPlus(input, true));
-            else if (input.contains(getString(R.string.divide)))
-                setView(mBottomText, Calc.calcPlus(input, true));
+            return doBasicOperation(input1, input2, sign, true);
         }
 
-        //При операциях без процента
+        //Basic operations
         else {
-            if (rawInput.contains(getString(R.string.plus)))
-                setView(mBottomText, Calc.calcPlus(rawInput, false));
-            else if (rawInput.contains(getString(R.string.minus)))
-                setView(mBottomText, Calc.calcMinus(rawInput, false));
-            else if (rawInput.contains(getString(R.string.multiply)))
-                setView(mBottomText, Calc.calcMultiply(rawInput, false));
-            else if (rawInput.contains(getString(R.string.divide)))
-                setView(mBottomText, Calc.calcDivide(rawInput, false));
-        }
+            if (number1.isEmpty()) return number2;
 
-        //В конце вычисления и вывода результата обнуляем верхнюю строку
-        setView(mTopText, null);*/
-        return "123";
+            char sign = number1.charAt(number1.length() - 1);
+            String input1 = number1.substring(0, number1.length() - 1);
+
+            return doBasicOperation(input1, number2, sign, false);
+        }
     }
 
-    //Базовые операции + - * /
-/*
-    public String doBasicOperation(String num1, String num2, char sign, boolean percentEnabled) {
-*/
-/*      final String[] args = input.split("\\+");
-        final String[] args = input.split("-");
-        final String[] args = input.split("\u00d7");
-        final String[] args = input.split("/");
+    //Operations (+, -, *, /)
+    public String doBasicOperation(String number1, String number2, char sign, boolean percentEnabled) {
 
-        final double num1 = Double.parseDouble(args[0]);
-        final double num2 = Double.parseDouble(args[1]);*//*
+        if (number2.equals("0") || number2.equals("0.0")) return "Infinity Error";
 
+        final double num1 = Double.parseDouble(number1);
+        final double num2 = Double.parseDouble(number2);
 
-        double result;
+        double result = 0;
 
         if (percentEnabled) {
             switch (sign) {
@@ -74,12 +52,14 @@ public class Calculator extends AppCompatActivity {
                 case ('-'):
                     result = num1 - (num2 / 100.0 * num1);
                     break;
-                case ('*'):
+                case ('×'):
                     result = num1 * (num2 / 100.0) * num1;
                     break;
                 case ('/'):
                     result = num1 / ((num2 / 100.0) * num1);
                     break;
+                default:
+                    Log.d("Error", "Error in doBasicOperation");
             }
         } else {
             switch (sign) {
@@ -89,27 +69,34 @@ public class Calculator extends AppCompatActivity {
                 case ('-'):
                     result = num1 - num2;
                     break;
-                case ('*'):
+                case ('×'):
                     result = num1 * num2;
                     break;
                 case ('/'):
                     result = num1 / num2;
                     break;
+                default:
+                    Log.d("Error", "Error in doBasicOperation");
             }
         }
 
         return tryToRoundDouble(result);
     }
-*/
+
 
     public String switchPlusAndMinus(String number) {
         if (number.isEmpty()) return "0";
+
+        if (number.endsWith("Error")) return "0";
 
         if (number.startsWith("-")) {
             return number.substring(1);
         } else if (Character.isDigit(number.charAt(0))) {
             return ("-" + number);
-        } else return "Error in switching %";
+        } else {
+            Log.d("Error", "Error in switchPlusAndMinus");
+            return "Error";
+        }
     }
 
     //Rounds a doable if it ends with .0 (5.0 -> 5)

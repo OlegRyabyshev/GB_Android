@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
@@ -16,19 +17,18 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTopText;
     private TextView mBottomText;
-    private Calculator calculator = new Calculator();
+    private final Calculator calculator = new Calculator();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_history) {
-            return true;
-        } else if (id == R.id.action_theme) {
+        if (id == R.id.action_theme) {
             showOptionsDialog();
             return true;
         } else if (id == R.id.action_about) {
-            setContentView(R.layout.activity_about);
+            Intent intent = new Intent(this, About.class);
+            startActivity(intent);
             return true;
         }
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.layout.activity_about, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mButtonDel.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             if (textFromBottomView().length() > 1) {
                 String input = textFromBottomView();
                 setView(mBottomText, input.substring(0, input.length() - 1));
@@ -122,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mButtonPercent.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             if (!mTopText.getText().toString().contains("%")) {
                 int numberSize = mBottomText.getText().toString().length();
                 if (mBottomText.getText().toString().charAt(numberSize - 1) != '%')
@@ -130,10 +134,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mButtonEquals.setOnClickListener(v -> {
-            calculator.performEquals(textFromTopView(), textFromBottomView());
+            if (bottomViewHasAnError()) return;
+
+            String result = calculator.performEquals(textFromTopView(), textFromBottomView());
+            setView(mBottomText, result);
+            setView(mTopText, "");
         });
 
         mButtonDot.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             int counter = 0;
             String number = mBottomText.getText().toString();
 
@@ -147,26 +157,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mButtonPlusMinus.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             setView(mBottomText, calculator.switchPlusAndMinus(textFromBottomView()));
         });
 
 
         //Buttons with basic operations (+, -, x, /)
         mButtonPlus.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             moveToTopView("+");
         });
 
         mButtonMinus.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             if (textFromBottomView().equals("0")) {
                 setView(mBottomText, "-0");
             } else moveToTopView("-");
         });
 
         mButtonMultiply.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             moveToTopView("×");
         });
 
         mButtonDivide.setOnClickListener(v -> {
+            if (bottomViewHasAnError()) return;
+
             moveToTopView("/");
         });
 
@@ -184,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterNumber(String number) {
+        if (bottomViewHasAnError()) setView(mBottomText, number);
+
         if (!(textFromBottomView().endsWith(getString(R.string.percent)))) {
             if (textFromBottomView().equals("0")) setView(mBottomText, number);
             else if (textFromBottomView().equals("-0")) setView(mBottomText, "-" + number);
@@ -199,6 +221,15 @@ public class MainActivity extends AppCompatActivity {
             setView(mTopText, history);
             setView(mBottomText, "0");
         }
+    }
+
+    //Error checking
+    public boolean bottomViewHasAnError() {
+        if (textFromBottomView().endsWith("Error")) {
+            setView(mBottomText, "0");
+            return true;
+        }
+        return false;
     }
 
     //Extract text from views
