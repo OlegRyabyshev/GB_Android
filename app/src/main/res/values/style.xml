@@ -31,7 +31,6 @@
     <style name="ViewStyle" parent="@android:style/Widget.Material.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:fontFamily">sans-serif-thin</item>
-        <item name="android:freezesText">true</item>
         <item name="android:gravity">right|top</item>
         <item name="android:background">@color/gray</item>
         <item name="android:padding">@dimen/defaultPadding</item>
