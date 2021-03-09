@@ -9,9 +9,9 @@
     <string name="action_about">About</string>
     <string name="about_text_name" translatable="false">Material Calculator</string>
     <string name="about_text_dev_name">By Oleg Ryabyshev</string>
-    <string name="about_text_telegram" translatable="false">telegram - @OlegRyabyshev</string>
-    <string name="about_text_email" translatable="false">email - oryabyshev@gmail.com</string>
-    <string name="about_text_version" translatable="false">Ver. 1.0</string>
+    <string name="about_text_telegram" translatable="false">Telegram: </string>
+    <string name="about_text_email" translatable="false">Email: oryabyshev@gmail.com</string>
+    <string name="about_text_version" translatable="false">Ver. 1.0.1</string>
     <string name="return_button">Return</string>
 
     <string name="ac" translatable="false">AC</string>

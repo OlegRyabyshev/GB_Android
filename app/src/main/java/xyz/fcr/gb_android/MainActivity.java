@@ -1,7 +1,6 @@
 package xyz.fcr.gb_android;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_about) {
             Intent intent = new Intent(this, About.class);
             startActivity(intent);
-            finish();
             return true;
         }
 
@@ -77,21 +74,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mTopText.setText(savedInstanceState.getString("topViewState"));
-        mBottomText.setText(savedInstanceState.getString("bottomViewState"));
-    }
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
+
+        if (savedInstanceState != null) {
+            mTopText.setText(savedInstanceState.getString("topViewState"));
+            mBottomText.setText(savedInstanceState.getString("bottomViewState"));
+        }
 
         final Button mButtonAC = findViewById(R.id.buttonAC);
         final Button mButtonDel = findViewById(R.id.buttonDel);
