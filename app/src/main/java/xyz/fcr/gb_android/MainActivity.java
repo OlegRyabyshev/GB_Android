@@ -6,11 +6,24 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView mTopText;
+    private TextView mBottomText;
+
+    private Button mButton0;
+    private Button mButton1;
+    private Button mButton2;
+    private Button mButton3;
+    private Button mButton4;
+    private Button mButton5;
+    private Button mButton6;
+    private Button mButton7;
+    private Button mButton8;
+    private Button mButton9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,18 +33,18 @@ public class MainActivity extends AppCompatActivity {
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
 
-        mButtonAC = findViewById(R.id.buttonAC);
-        mButtonDel = findViewById(R.id.buttonDel);
-        mButtonPercent = findViewById(R.id.buttonPercent);
-        mButtonEquals = findViewById(R.id.buttonEquals);
-        mButtonDot = findViewById(R.id.buttonDot);
+        Button mButtonAC = findViewById(R.id.buttonAC);
+        Button mButtonDel = findViewById(R.id.buttonDel);
+        Button mButtonPercent = findViewById(R.id.buttonPercent);
+        Button mButtonEquals = findViewById(R.id.buttonEquals);
+        Button mButtonDot = findViewById(R.id.buttonDot);
 
-        mButtonPlus = findViewById(R.id.buttonPlus);
-        mButtonMinus = findViewById(R.id.buttonMinus);
-        mButtonMultiply = findViewById(R.id.buttonMultiply);
-        mButtonDivide = findViewById(R.id.buttonDivide);
+        Button mButtonPlus = findViewById(R.id.buttonPlus);
+        Button mButtonMinus = findViewById(R.id.buttonMinus);
+        Button mButtonMultiply = findViewById(R.id.buttonMultiply);
+        Button mButtonDivide = findViewById(R.id.buttonDivide);
 
-        mButton000 = findViewById(R.id.button000);
+        Button mButton000 = findViewById(R.id.button000);
         mButton0 = findViewById(R.id.button0);
         mButton1 = findViewById(R.id.button1);
         mButton2 = findViewById(R.id.button2);
@@ -43,172 +56,78 @@ public class MainActivity extends AppCompatActivity {
         mButton8 = findViewById(R.id.button8);
         mButton9 = findViewById(R.id.button9);
 
-
-        mButtonAC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTopText.setText("");
-                mBottomText.setText("0");
-            }
+        mButtonAC.setOnClickListener(v -> {
+            mTopText.setText("");
+            mBottomText.setText("0");
         });
 
-        mButtonDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mBottomText.getText().length() > 1) {
-                    String newText = mBottomText.getText().toString();
-                    mBottomText.setText(newText.substring(0, newText.length() - 1));
-                } else mBottomText.setText("0");
-            }
+        mButtonDel.setOnClickListener(v -> {
+            if (mBottomText.getText().length() > 1) {
+                String newText = mBottomText.getText().toString();
+                mBottomText.setText(newText.substring(0, newText.length() - 1));
+            } else mBottomText.setText("0");
         });
 
         //Можно и зажимать кнопку DEL вместо AC
-        mButtonDel.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibe.vibrate(5);
+        mButtonDel.setOnLongClickListener(v -> {
+            Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibe.vibrate(5);
 
-                mTopText.setText("");
-                mBottomText.setText("0");
-                return true;
+            mTopText.setText("");
+            mBottomText.setText("0");
+            return true;
+        });
+
+        mButtonPercent.setOnClickListener(v -> {
+            if (!mTopText.getText().toString().contains("%")) {
+                int numberSize = mBottomText.getText().toString().length();
+                if (mBottomText.getText().toString().charAt(numberSize - 1) != '%')
+                    mBottomText.append("%");
             }
         });
 
-        mButtonPercent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mTopText.getText().toString().contains("%")) {
-                    int numberSize = mBottomText.getText().toString().length();
-                    if (mBottomText.getText().toString().charAt(numberSize - 1) != '%')
-                        mBottomText.append("%");
-                }
+        mButtonEquals.setOnClickListener(v -> performResult());
+
+        mButtonDot.setOnClickListener(v -> {
+            int counter = 0;
+            String number = mBottomText.getText().toString();
+
+            for (int i = 0; i < number.length(); i++) {
+                if (number.charAt(i) == '.') counter++;
             }
-        });
 
-        mButtonEquals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performResult();
-            }
-        });
-
-        mButtonDot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int counter = 0;
-                String number = mBottomText.getText().toString();
-
-                for (int i = 0; i < number.length(); i++) {
-                    if (number.charAt(i) == '.') counter++;
-                }
-
-                if (!(mBottomText.getText().toString().endsWith("%"))) {
-                    if (counter == 0) mBottomText.append(".");
-                }
+            if (!(mBottomText.getText().toString().endsWith("%"))) {
+                if (counter == 0) mBottomText.append(".");
             }
         });
 
 
         //Базовые операции
-        mButtonPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyToHistory("+");
-            }
-        });
+        mButtonPlus.setOnClickListener(v -> copyToHistory("+"));
 
-        mButtonMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyToHistory("-");
-            }
-        });
+        mButtonMinus.setOnClickListener(v -> copyToHistory("-"));
 
-        mButtonMultiply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyToHistory("×");
-            }
-        });
+        mButtonMultiply.setOnClickListener(v -> copyToHistory("×"));
 
-        mButtonDivide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyToHistory("/");
-            }
-        });
+        mButtonDivide.setOnClickListener(v -> copyToHistory("/"));
 
         //Цифры
-        mButton000.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < 3; i++) {
-                    enterNumber(mButton0.getText().toString());
-                }
-            }
-        });
-
-        mButton0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mButton000.setOnClickListener(v -> {
+            for (int i = 0; i < 3; i++) {
                 enterNumber(mButton0.getText().toString());
             }
         });
-        mButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton1.getText().toString());
-            }
-        });
-        mButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton2.getText().toString());
-            }
-        });
-        mButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton3.getText().toString());
-            }
-        });
-        mButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton4.getText().toString());
-            }
-        });
-        mButton5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton5.getText().toString());
-            }
-        });
-        mButton6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton6.getText().toString());
-            }
-        });
-        mButton7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton7.getText().toString());
-            }
-        });
-        mButton8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton8.getText().toString());
-            }
-        });
-        mButton9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enterNumber(mButton9.getText().toString());
-            }
-        });
+
+        mButton0.setOnClickListener(v -> enterNumber(mButton0.getText().toString()));
+        mButton1.setOnClickListener(v -> enterNumber(mButton1.getText().toString()));
+        mButton2.setOnClickListener(v -> enterNumber(mButton2.getText().toString()));
+        mButton3.setOnClickListener(v -> enterNumber(mButton3.getText().toString()));
+        mButton4.setOnClickListener(v -> enterNumber(mButton4.getText().toString()));
+        mButton5.setOnClickListener(v -> enterNumber(mButton5.getText().toString()));
+        mButton6.setOnClickListener(v -> enterNumber(mButton6.getText().toString()));
+        mButton7.setOnClickListener(v -> enterNumber(mButton7.getText().toString()));
+        mButton8.setOnClickListener(v -> enterNumber(mButton8.getText().toString()));
+        mButton9.setOnClickListener(v -> enterNumber(mButton9.getText().toString()));
     }
 
     public void enterNumber(String number) {
@@ -280,11 +199,6 @@ public class MainActivity extends AppCompatActivity {
     public static void setView(TextView view, double input) {
         view.setText(input + "");
 
-    }
-
-    @SuppressLint("SetTextI18n")
-    public static void setView(TextView view, int input) {
-        view.setText(input + "");
     }
 }
 
