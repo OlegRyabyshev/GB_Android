@@ -8,11 +8,15 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,23 +50,49 @@ public class MainActivity extends AppCompatActivity {
     private void showOptionsDialog() {
         final String[] themes = {
                 getResources().getString(R.string.action_theme_light),
-                getResources().getString(R.string.action_theme_dark),
-                getResources().getString(R.string.action_theme_default)
+                getResources().getString(R.string.action_theme_dark)
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getResources().getString(R.string.action_theme));
 
-        builder.setSingleChoiceItems(themes, -1, (dialog, which) -> {
-            if (which == 0)
+        SharedPreferences sharedPreferences = getSharedPreferences("MyUserPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int themeInt = getCurrentTheme();
+
+        builder.setSingleChoiceItems(themes, themeInt, (dialog, which) -> {
+            if (which == 0) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            else if (which == 1)
+                editor.putString("calculator_theme", "light");
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            else
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                editor.putString("calculator_theme", "dark");
+            }
+            editor.apply();
         });
 
         builder.show();
+    }
+
+    private int getCurrentTheme() {
+        int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                return 0;
+            case Configuration.UI_MODE_NIGHT_YES:
+                return 1;
+            default:
+                return -1;
+        }
+    }
+
+    private void setThemeFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyUserPref", Context.MODE_PRIVATE);
+        String savedTheme = sharedPreferences.getString("calculator_theme", "");
+
+        if (savedTheme.equals("light")) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        else if (savedTheme.equals("dark")) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     @Override
@@ -77,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setThemeFromSharedPreferences();
 
         mTopText = findViewById(R.id.topText);
         mBottomText = findViewById(R.id.bottomText);
